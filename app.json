@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "Taravee Studio",
+    "slug": "taravee-studio",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "taravee",
+    "backgroundColor": "#FFFFFF",
+    "splash": {
+      "backgroundColor": "#FFFFFF",
+      "resizeMode": "contain"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "studio.taravee.app"
+    },
+    "android": {
+      "package": "studio.taravee.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}
