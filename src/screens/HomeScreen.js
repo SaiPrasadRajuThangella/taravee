@@ -16,6 +16,17 @@ import { colors, fonts, shadow, radius, INSTAGRAM_URL } from '../theme';
 import { api, firstPhoto } from '../api';
 import { GoldButton, SectionHeading, Loader, ErrorRetry } from '../components/ui';
 
+const HERO_ASSET = require('../assets/images/hero-bride.jpg');
+
+const CATEGORY_ASSETS = {
+  'Bridal Lehengas': require('../assets/images/cat-lehenga.jpg'),
+  'Designer Sarees': require('../assets/images/cat-saree.jpg'),
+  'Sharara Sets': require('../assets/images/cat-sharara.jpg'),
+  'Western Wear': require('../assets/images/cat-western.jpg'),
+  'Indo-Western': require('../assets/images/cat-indo.jpg'),
+  Accessories: require('../assets/images/cat-acc.jpg'),
+};
+
 const CATEGORY_NAMES = [
   'Bridal Lehengas',
   'Designer Sarees',
@@ -33,19 +44,24 @@ function buildCategories(listings) {
       name,
       count: count > 0 ? `${count}+` : '0',
       img: count > 0 ? firstPhoto(inCat[0]) : null,
+      placeholder: CATEGORY_ASSETS[name],
     };
   });
+}
+
+function imageSource(remote, local) {
+  return remote ? { uri: remote } : local;
 }
 
 function CategoryCard({ item, width, aspectRatio, onPress, large }) {
   return (
     <Pressable onPress={onPress} style={{ width }}>
       <View style={[styles.catCard, { aspectRatio }, shadow.card]}>
-        {item.img ? (
-          <Image source={{ uri: item.img }} style={styles.catImg} />
-        ) : (
-          <View style={[styles.catImg, styles.catPlaceholder]} />
-        )}
+        <Image
+          source={imageSource(item.img, item.placeholder)}
+          style={styles.catImg}
+          resizeMode="cover"
+        />
         <LinearGradient
           colors={['transparent', 'rgba(28,26,22,0.4)', 'rgba(28,26,22,0.95)']}
           locations={[0.4, 0.7, 1]}
@@ -122,11 +138,11 @@ export default function HomeScreen({ navigation }) {
         style={[styles.hero, shadow.soft]}
         onPress={() => (hero ? goProduct(hero) : goShop())}
       >
-        {heroImg ? (
-          <Image source={{ uri: heroImg }} style={styles.heroImg} />
-        ) : (
-          <View style={[styles.heroImg, styles.heroPlaceholder]} />
-        )}
+        <Image
+          source={heroImg ? { uri: heroImg } : HERO_ASSET}
+          style={styles.heroImg}
+          resizeMode="cover"
+        />
         <LinearGradient
           colors={['rgba(28,26,22,0.15)', 'rgba(28,26,22,0.35)', 'rgba(28,26,22,0.92)']}
           locations={[0, 0.45, 1]}
@@ -279,7 +295,6 @@ const styles = StyleSheet.create({
     aspectRatio: 3 / 4,
   },
   heroImg: { ...StyleSheet.absoluteFillObject, width: '100%', height: '100%' },
-  heroPlaceholder: { backgroundColor: colors.imagePlaceholder },
   heroBadge: {
     position: 'absolute',
     top: 16,
@@ -414,7 +429,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.imagePlaceholder,
   },
   catImg: { ...StyleSheet.absoluteFillObject, width: '100%', height: '100%' },
-  catPlaceholder: { backgroundColor: colors.imagePlaceholder },
   catText: { position: 'absolute', left: 0, right: 0, bottom: 0, padding: 12 },
   catName: {
     fontFamily: fonts.heading,

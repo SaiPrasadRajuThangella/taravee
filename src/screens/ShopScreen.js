@@ -76,7 +76,7 @@ export default function ShopScreen({ navigation }) {
         onEndReachedThreshold={0.4}
         ListHeaderComponent={
           <View style={styles.headerArea}>
-            <Text style={styles.title}>Discover Treasures 👑</Text>
+            <Text style={styles.title}>Discover Treasures </Text>
             <View style={styles.searchBox}>
               <Ionicons name="search" size={16} color={colors.gold} />
               <TextInput

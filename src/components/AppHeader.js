@@ -1,7 +1,7 @@
 import React from 'react';
-import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Linking, Pressable, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, fonts, INSTAGRAM_URL } from '../theme';
+import { colors, INSTAGRAM_URL } from '../theme';
 
 export const APP_HEADER_HEIGHT = 84;
 
@@ -9,11 +9,12 @@ export default function AppHeader() {
   return (
     <View style={styles.header}>
       <View style={styles.brandBlock}>
-        <Text style={styles.logo}>Taravée</Text>
-        <View style={styles.taglineBlock}>
-          <Text style={styles.tagline}>ONCE LOVED · FOREVER ELEGANT</Text>
-          <View style={styles.taglineRule} />
-        </View>
+        <Image
+          source={require('../assets/images/Taravee-logo.png')}
+          style={styles.brandLogo}
+          resizeMode="contain"
+          accessibilityLabel="Taravée"
+        />
       </View>
       <Pressable
         style={styles.igBtn}
@@ -40,30 +41,9 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   brandBlock: { alignItems: 'center' },
-  logo: {
-    fontFamily: fonts.headingBold,
-    fontSize: 44,
-    color: colors.goldGradientStart,
-    lineHeight: 48,
-  },
-  taglineBlock: {
-    alignItems: 'center',
-    marginTop: 2,
-  },
-  tagline: {
-    fontFamily: fonts.displayMedium,
-    fontSize: 9,
-    letterSpacing: 3,
-    color: colors.goldDeep,
-    textTransform: 'uppercase',
-  },
-  taglineRule: {
-    width: 52,
-    height: 1,
-    marginTop: 4,
-    backgroundColor: colors.gold,
-    opacity: 0.75,
-    borderRadius: 1,
+  brandLogo: {
+    width: 168,
+    height: 56,
   },
   igBtn: {
     position: 'absolute',
