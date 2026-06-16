@@ -16,6 +16,8 @@ const localFonts = {
   'PlusJakartaSans-SemiBold': require('./src/assets/fonts/PlusJakartaSans-SemiBold.ttf'),
   'PlusJakartaSans-Bold': require('./src/assets/fonts/PlusJakartaSans-Bold.ttf'),
   'PlusJakartaSans-ExtraBold': require('./src/assets/fonts/PlusJakartaSans-ExtraBold.ttf'),
+  'Cinzel-Regular': require('./src/assets/fonts/Cinzel-Regular.ttf'),
+  'Cinzel-Medium': require('./src/assets/fonts/Cinzel-Medium.ttf'),
 };
 
 const navTheme = {

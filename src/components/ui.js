@@ -1,12 +1,14 @@
 import React from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, radius, fonts } from '../theme';
 
-export function GoldButton({ title, onPress, outline = false, icon, style, disabled }) {
+export function GoldButton({ title, onPress, outline = false, icon, style, labelStyle, disabled }) {
   const flatStyle = StyleSheet.flatten(style) || {};
   const isFullWidth =
     flatStyle.alignSelf === 'stretch' || flatStyle.width === '100%' || flatStyle.flex === 1;
+  const borderRadius = flatStyle.borderRadius ?? radius.button;
 
   return (
     <Pressable
@@ -16,12 +18,21 @@ export function GoldButton({ title, onPress, outline = false, icon, style, disab
         styles.btn,
         outline ? styles.btnOutline : styles.btnFilled,
         isFullWidth && styles.btnFull,
+        { borderRadius, overflow: 'hidden' },
         disabled && { opacity: 0.5 },
         pressed && { opacity: 0.85 },
         style,
       ]}
     >
-      <View style={styles.btnContent}>
+      {!outline ? (
+        <LinearGradient
+          colors={[colors.goldGradientStart, colors.goldGradientEnd]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={[StyleSheet.absoluteFillObject, { borderRadius }]}
+        />
+      ) : null}
+      <View style={[styles.btnContent, !icon && styles.btnContentSolo]}>
         {icon ? (
           <Ionicons
             name={icon}
@@ -31,9 +42,14 @@ export function GoldButton({ title, onPress, outline = false, icon, style, disab
           />
         ) : null}
         <Text
-          style={[styles.btnText, { color: outline ? colors.gold : '#FFFFFF' }]}
+          style={[
+            styles.btnText,
+            { color: outline ? colors.gold : '#FFFFFF' },
+            !icon && styles.btnTextSolo,
+            labelStyle,
+          ]}
           numberOfLines={1}
-          adjustsFontSizeToFit
+          adjustsFontSizeToFit={!!icon}
           minimumFontScale={0.85}
         >
           {title}
@@ -73,12 +89,17 @@ export function OfflineBanner() {
   );
 }
 
-export function SectionHeading({ eyebrow, title, light = true }) {
+export function SectionHeading({ eyebrow, title, light = true, action }) {
   return (
-    <View style={{ marginBottom: 16 }}>
-      {eyebrow ? <Text style={styles.eyebrow}>{eyebrow.toUpperCase()}</Text> : null}
-      <Text style={[styles.heading, { color: light ? colors.gold : colors.text }]}>{title}</Text>
-      <View style={styles.divider} />
+    <View style={styles.sectionHeader}>
+      <View style={styles.sectionHeaderMain}>
+        {eyebrow ? <Text style={styles.eyebrow}>{eyebrow.toUpperCase()}</Text> : null}
+        <Text style={[styles.heading, { color: light ? colors.gold : colors.text }]} numberOfLines={1}>
+          {title}
+        </Text>
+        <View style={styles.divider} />
+      </View>
+      {action}
     </View>
   );
 }
@@ -97,6 +118,8 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 20,
     minHeight: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   btnFull: {
     alignSelf: 'stretch',
@@ -108,8 +131,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
   },
+  btnContentSolo: {
+    justifyContent: 'center',
+  },
   btnIcon: { marginRight: 8, flexShrink: 0 },
-  btnFilled: { backgroundColor: colors.gold },
+  btnFilled: {},
   btnOutline: { borderWidth: 1.5, borderColor: colors.gold },
   btnText: {
     fontFamily: fonts.bold,
@@ -119,6 +145,10 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     textAlign: 'center',
     includeFontPadding: false,
+  },
+  btnTextSolo: {
+    flexGrow: 1,
+    textAlign: 'center',
   },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
   muted: { color: colors.muted, marginTop: 8, fontFamily: fonts.light },
@@ -131,9 +161,24 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
   },
   offlineText: { color: '#000', fontSize: 12, fontFamily: fonts.semiBold },
-  eyebrow: { color: colors.gold, fontSize: 11, letterSpacing: 3, fontFamily: fonts.bold, marginBottom: 6 },
-  heading: { fontFamily: fonts.headingBold, fontSize: 26 },
-  divider: { width: 48, height: 2, backgroundColor: colors.gold, marginTop: 10, borderRadius: 2 },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    gap: 12,
+    marginBottom: 16,
+  },
+  sectionHeaderMain: { flex: 1, minWidth: 0 },
+  eyebrow: {
+    color: colors.goldDeep,
+    fontSize: 10,
+    letterSpacing: 4,
+    fontFamily: fonts.display,
+    marginBottom: 4,
+    textTransform: 'uppercase',
+  },
+  heading: { fontFamily: fonts.headingBold, fontSize: 34, lineHeight: 38 },
+  divider: { width: 64, height: 1, backgroundColor: colors.gold, marginTop: 8, borderRadius: 1, opacity: 0.7 },
   badge: { borderRadius: radius.button, paddingHorizontal: 10, paddingVertical: 4 },
   badgeFilled: { backgroundColor: colors.gold },
   badgeOutline: { borderWidth: 1, borderColor: colors.border },

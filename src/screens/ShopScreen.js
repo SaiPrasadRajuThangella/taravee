@@ -70,7 +70,7 @@ export default function ShopScreen({ navigation }) {
         keyExtractor={(item) => String(item._id)}
         numColumns={2}
         columnWrapperStyle={{ gap: 14, paddingHorizontal: 18 }}
-        contentContainerStyle={{ gap: 14, paddingBottom: 30 }}
+        contentContainerStyle={{ gap: 14, paddingTop: 16, paddingBottom: 30 }}
         refreshControl={<RefreshControl tintColor={colors.gold} refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} />}
         onEndReached={() => setVisible((v) => Math.min(v + PAGE, filtered.length))}
         onEndReachedThreshold={0.4}
