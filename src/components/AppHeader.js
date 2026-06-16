@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   brandBlock: { alignItems: 'center' },
   brandLogo: {
     width: 168,
-    height: 56,
+    height: 86,
   },
   igBtn: {
     position: 'absolute',
